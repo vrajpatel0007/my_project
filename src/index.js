@@ -3,6 +3,21 @@ import dotenv from "dotenv"
 import connectDB from "./db/index.js";
 import express from "express";
 const app = express()
+import cors from "cors"
+import cookieparser from "cookie-parser";
+
+app.use(cors({
+    origin: process.env.CORS_ORIGIN,
+    credentials: true
+}))
+
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.use(express.static("public"))
+app.use(cookieparser())
+
+
+
 
 
 dotenv.config({
@@ -11,7 +26,7 @@ dotenv.config({
 
 connectDB()
     .then(() => {
-        app.listen(process.env.PORT || 8000, () => {
+        app.listen(process.env.PORT || 3000, () => {
             console.log(`server is running at port : ${process.env.PORT}`);
         })
     })
@@ -22,7 +37,16 @@ connectDB()
 
 
 
+//routes import
+import userRouter from "./routes/user.route.js";
 
+// routes declarations
+app.use("/users", userRouter)
+
+
+// http://localhost:8080/users/register
+
+export default { app }
 
 
 
