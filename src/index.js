@@ -13,15 +13,12 @@ app.use(cors({
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use(express.static("public"))
+app.use("/public",express.static("public"))
 app.use(cookieparser())
 
 
-
-
-
 dotenv.config({
-    path: './env'
+    path: './.env'
 })
 
 connectDB()
